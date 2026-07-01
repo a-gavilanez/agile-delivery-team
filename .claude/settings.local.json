@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 .claude/scripts/build-report.py deliveries/gestionDocumental)",
+      "PowerShell(cd \"C:\\\\Users\\\\DSF-TICS-02\\\\Desktop\\\\agile-delivery-team\"; $env:PYTHONIOENCODING=\"utf-8\"; python .claude/scripts/buil-report.py deliveries/gestionDocumental)"
+    ]
+  }
+}

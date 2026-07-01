@@ -1,0 +1,253 @@
+{
+  "delivery": "gestionDocumental",
+  "generated": "2026-06-28",
+  "author": "product-owner",
+  "mvp_outcome": "Los funcionarios cierran tramites dentro del sistema sin coordinacion fuera (correo, papel, conversacion verbal)",
+  "success_metric": ">=70% de tramites ingresados completan >=2 transiciones de estado automaticas en los primeros 60 dias sin coordinacion fuera del sistema",
+  "epics": [
+    {
+      "id": "E-01",
+      "title": "Ingreso trazable de documentos",
+      "value": "La Secretaria cierra el ciclo de recepcion — registro y derivacion — completamente dentro del sistema: el oficio queda identificado con codigo unico desde el primer segundo y llega a la bandeja del Director sin aviso informal",
+      "priority": 1,
+      "origin": [
+        "mvp:funcionalidad-1",
+        "mvp:funcionalidad-2",
+        "req:R-01",
+        "req:R-02",
+        "req:R-03",
+        "pain:registro-sin-trazabilidad",
+        "pain:metadatos-no-obligados",
+        "pain:bandeja-mezclada-secretaria",
+        "pain:derivacion-manual-director"
+      ]
+    },
+    {
+      "id": "E-02",
+      "title": "Delegacion formal y asignacion",
+      "value": "El Director delega con instruccion escrita y auditada dentro del sistema, y el Colaborador trabaja unicamente su propia cola de tramites: desaparecen papelitos, correos de delegacion y confusion sobre quien atiende que",
+      "priority": 2,
+      "origin": [
+        "mvp:funcionalidad-3",
+        "mvp:funcionalidad-4",
+        "req:R-08",
+        "req:R-10",
+        "pain:delegacion-informal",
+        "pain:ceguera-de-estado",
+        "pain:bandeja-sin-filtro"
+      ]
+    },
+    {
+      "id": "E-03",
+      "title": "Respuesta vinculada y auditoria del ciclo",
+      "value": "El Colaborador cierra el tramite subiendo la respuesta sin avisar por correo, y cualquier actor autorizado ve en un lugar la linea de tiempo completa del oficio; activa directamente la metrica de exito del MVP (>=2 transiciones automaticas)",
+      "priority": 3,
+      "origin": [
+        "mvp:funcionalidad-5",
+        "mvp:funcionalidad-6",
+        "mvp:metrica-de-exito",
+        "req:R-11",
+        "req:R-13",
+        "pain:respuesta-sin-trazabilidad",
+        "pain:estado-no-automatico",
+        "pain:sin-linea-de-tiempo",
+        "pain:ceguera-de-estado"
+      ]
+    },
+    {
+      "id": "E-04",
+      "title": "Acceso seguro por departamento",
+      "value": "Cada usuario ve unicamente los documentos de su departamento: datos sensibles quedan aislados y la adopcion no exige confianza ciega entre areas",
+      "priority": 4,
+      "origin": [
+        "mvp:funcionalidad-7",
+        "req:R-16",
+        "pain:bandeja-sin-filtro"
+      ]
+    }
+  ],
+  "stories": [
+    {
+      "id": "US-01",
+      "epic": "E-01",
+      "as_a": "Secretaria",
+      "want": "registrar un documento externo con un codigo unico generado automaticamente y subir el PDF escaneado, completando los campos obligatorios (remitente, institucion, asunto, fecha, tipo)",
+      "so_that": "garantizar que cada oficio que llega quede identificado e irrepetible desde el momento de su ingreso",
+      "acceptance_criteria": [
+        "Dado que llega un oficio en papel, cuando la Secretaria crea el registro y guarda, entonces el sistema genera automaticamente un codigo secuencial unico e inmutable con formato TRM-AAAA-NNNN (ej. TRM-2026-0001)",
+        "Dado que la Secretaria intenta guardar el registro con alguno de los campos obligatorios vacio (remitente, institucion, asunto, fecha de recepcion o tipo), cuando pulsa Guardar, entonces el sistema bloquea el guardado y muestra un mensaje descriptivo indicando cual campo falta",
+        "Dado que todos los campos obligatorios estan completos y el PDF escaneado esta adjunto, cuando la Secretaria guarda el registro, entonces el documento aparece en la bandeja Por Despachar con estado Ingresado y el codigo generado es visible e inmutable"
+      ],
+      "estimate": 5,
+      "dependencies": [],
+      "open_questions": [],
+      "priority": 1,
+      "origin": [
+        "us:US-01",
+        "req:R-01",
+        "req:R-02",
+        "pain:registro-sin-trazabilidad",
+        "pain:metadatos-no-obligados"
+      ]
+    },
+    {
+      "id": "US-02",
+      "epic": "E-01",
+      "as_a": "Secretaria",
+      "want": "ver los documentos recien registrados en una bandeja separada llamada Por Despachar y derivarlos al Director con un clic",
+      "so_that": "no mezcle lo que acabo de recibir con el resto del sistema y el Director vea el cambio de estado sin que yo tenga que avisar por correo o conversacion",
+      "acceptance_criteria": [
+        "Dado que existen documentos con estado Ingresado, cuando la Secretaria abre el sistema, entonces ve una bandeja Por Despachar que muestra exclusivamente esos documentos y ninguno de otro estado",
+        "Dado que la Secretaria selecciona un documento de la bandeja Por Despachar, cuando pulsa Derivar al Director y confirma (con nota aclaratoria opcional), entonces el estado cambia automaticamente a Recibido en Direccion y el documento desaparece de la bandeja Por Despachar",
+        "Dado que el estado del documento cambio a Recibido en Direccion, cuando el Director abre su bandeja, entonces el documento aparece ahi sin que la Secretaria haya enviado ningun correo ni aviso externo"
+      ],
+      "estimate": 3,
+      "dependencies": ["US-01"],
+      "open_questions": [],
+      "priority": 2,
+      "origin": [
+        "us:US-02",
+        "req:R-03",
+        "pain:bandeja-mezclada-secretaria",
+        "pain:derivacion-manual-director"
+      ]
+    },
+    {
+      "id": "US-03",
+      "epic": "E-02",
+      "as_a": "Director",
+      "want": "seleccionar un tramite en mi bandeja, escribir una sumilla de instruccion obligatoria y elegir a que colaborador asignarlo",
+      "so_that": "la delegacion quede registrada formalmente en el sistema con la instruccion completa, y el colaborador la reciba directamente en su bandeja sin papelitos ni correos paralelos",
+      "acceptance_criteria": [
+        "Dado que el Director tiene un documento en su bandeja con estado Recibido en Direccion, cuando pulsa Delegar, entonces el sistema muestra un campo de sumilla obligatorio (minimo 10 caracteres) y una lista de colaboradores del departamento",
+        "Dado que el Director completa la sumilla y elige un colaborador, cuando confirma la delegacion, entonces el estado del tramite cambia a Asignado y el documento aparece en la bandeja personal del colaborador seleccionado",
+        "Dado que el tramite fue delegado, cuando cualquier usuario autorizado abre la linea de tiempo del tramite, entonces ve el evento de delegacion con el texto completo de la sumilla, el nombre del Director, el nombre del colaborador asignado y la fecha/hora del evento"
+      ],
+      "estimate": 3,
+      "dependencies": ["US-02"],
+      "open_questions": [],
+      "priority": 3,
+      "origin": [
+        "us:US-03",
+        "req:R-08",
+        "pain:delegacion-informal",
+        "pain:ceguera-de-estado"
+      ]
+    },
+    {
+      "id": "US-04",
+      "epic": "E-02",
+      "as_a": "Colaborador",
+      "want": "que mi bandeja principal muestre solo los tramites asignados directamente a mi usuario",
+      "so_that": "no pierda tiempo filtrando lo que no me corresponde ni corra el riesgo de atender un tramite equivocado",
+      "acceptance_criteria": [
+        "Dado que el Colaborador inicia sesion, cuando abre su bandeja, entonces solo ve los tramites cuyo campo asignado a coincide con su usuario; ningun otro documento es visible en esa vista",
+        "Dado que existe un documento asignado a otro colaborador o proveniente de otra area, cuando el Colaborador navega su bandeja, entonces ese documento no aparece en ninguna parte de su vista principal",
+        "Dado que le acaban de delegar un nuevo tramite, cuando el Colaborador recarga la bandeja, entonces el tramite nuevo aparece en primer lugar con una etiqueta visual Nuevo"
+      ],
+      "estimate": 2,
+      "dependencies": ["US-03"],
+      "open_questions": [],
+      "priority": 4,
+      "origin": [
+        "us:US-04",
+        "req:R-10",
+        "pain:bandeja-sin-filtro"
+      ]
+    },
+    {
+      "id": "US-05",
+      "epic": "E-03",
+      "as_a": "Colaborador",
+      "want": "subir el PDF de mi respuesta directamente en el tramite que estoy atendiendo",
+      "so_that": "quede vinculado al documento origen y el estado cambie automaticamente, sin que yo tenga que avisar por separado al Director o a la Secretaria",
+      "acceptance_criteria": [
+        "Dado que el Colaborador abre un tramite con estado Asignado, cuando sube un archivo PDF de respuesta, entonces el sistema vincula ese PDF al tramite origen y ambos son accesibles desde la misma vista del tramite",
+        "Dado que el PDF de respuesta fue cargado con exito, cuando el sistema lo procesa, entonces el estado cambia automaticamente a Respondido - Pendiente de Revision sin ninguna accion adicional del Colaborador",
+        "Dado que el estado cambio a Respondido - Pendiente de Revision, cuando el Director o la Secretaria abren el tramite, entonces ven el estado actualizado y el enlace directo al PDF de respuesta"
+      ],
+      "estimate": 3,
+      "dependencies": ["US-04"],
+      "open_questions": [],
+      "priority": 5,
+      "origin": [
+        "us:US-05",
+        "req:R-11",
+        "pain:respuesta-sin-trazabilidad",
+        "pain:estado-no-automatico"
+      ]
+    },
+    {
+      "id": "US-06",
+      "epic": "E-03",
+      "as_a": "Colaborador o Director",
+      "want": "ver el historial cronologico de cada evento del tramite (creacion, derivacion, delegacion, respuesta) con el actor responsable y la fecha/hora de cada accion",
+      "so_that": "entienda donde esta el tramite y quien hizo que sin tener que preguntar a nadie",
+      "acceptance_criteria": [
+        "Dado que cualquier usuario autorizado abre un tramite, cuando accede a la seccion Historial, entonces ve una linea de tiempo con todos los eventos en orden cronologico: creacion, derivacion, delegacion (con sumilla), carga de respuesta y cualquier otro evento registrado",
+        "Dado que existe un evento de delegacion en la linea de tiempo, cuando el usuario lo expande, entonces ve el texto completo de la sumilla del Director, el nombre del colaborador asignado y la fecha/hora del evento",
+        "Dado que el tramite aun no tiene respuesta cargada, cuando el usuario ve la linea de tiempo, entonces el estado actual aparece destacado visualmente como el ultimo evento pendiente"
+      ],
+      "estimate": 3,
+      "dependencies": ["US-01", "US-03", "US-05"],
+      "open_questions": [],
+      "priority": 6,
+      "origin": [
+        "us:US-06",
+        "req:R-13",
+        "pain:sin-linea-de-tiempo",
+        "pain:ceguera-de-estado"
+      ]
+    },
+    {
+      "id": "US-07",
+      "epic": "E-04",
+      "as_a": "usuario del sistema (Secretaria, Director o Colaborador)",
+      "want": "que el sistema me muestre unicamente los documentos de mi departamento",
+      "so_that": "no pueda ver ni accidentalmente abrir documentos de otras areas y los datos sensibles de cada departamento queden protegidos",
+      "acceptance_criteria": [
+        "Dado que un usuario esta autenticado, cuando intenta acceder a un documento de otro departamento por URL directa o busqueda por codigo, entonces el sistema devuelve el mensaje Sin permiso y no muestra ningun contenido del documento",
+        "Dado que el Colaborador realiza una busqueda por codigo de tramite, cuando los resultados se muestran, entonces solo aparecen documentos que pertenecen a su departamento",
+        "Dado que un usuario pre-cargado intenta acceder al sistema, cuando el sistema valida sus credenciales, entonces solo puede acceder si tiene al menos un departamento asignado en los datos de configuracion inicial; en caso contrario el sistema deniega el acceso con un mensaje de usuario sin departamento asignado"
+      ],
+      "estimate": 5,
+      "dependencies": ["US-01"],
+      "open_questions": [],
+      "priority": 7,
+      "origin": [
+        "us:US-07",
+        "req:R-16",
+        "pain:bandeja-sin-filtro"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "OQ-01",
+      "question": "El piloto inicial arranca con un solo departamento o con varios simultaneamente?",
+      "impact": "Define si E-04/US-07 debe completarse antes del primer despliegue o puede ir en paralelo con E-02/E-03",
+      "origin": ["mvp-canvas.md:riesgos-supuestos"],
+      "resolution": "Resuelto: el piloto arranca con un solo departamento (mvp-canvas: segmento del mismo departamento institucional). US-07 puede desarrollarse en paralelo con E-02/E-03 sin bloquear el despliegue inicial."
+    },
+    {
+      "id": "OQ-02",
+      "question": "Quien ejerce el rol de administrador para crear usuarios y asociarlos a departamentos (criterio 3 de US-07)? Es un perfil separado o el propio Director?",
+      "impact": "El alcance real de US-07 puede crecer significativamente si implica un modulo de administracion de usuarios no definido en el inbox",
+      "origin": ["us:US-07", "req:R-16"],
+      "resolution": "Resuelto: no existe rol Administrador en el discovery ni modulo de gestion de usuarios en el alcance v1. Los usuarios se pre-cargan mediante datos iniciales (bootstrap). El criterio 3 de US-07 ha sido reescrito para reflejar este modelo."
+    },
+    {
+      "id": "OQ-03",
+      "question": "Que transicion de estado ocurre despues de Respondido - Pendiente de Revision en v1? El Director tiene una accion de revision/cierre o el tramite queda indefinidamente en ese estado?",
+      "impact": "Sin definir esta accion el ciclo documental queda tecnicamente abierto y la metrica de exito puede ser ambigua al medir las transiciones",
+      "origin": ["us:US-05", "mvp-canvas.md:fuera-de-alcance-R-05"],
+      "resolution": "Resuelto: en v1 Respondido - Pendiente de Revision es el estado final del ciclo MVP. El cierre formal (R-05) esta fuera de alcance segun mvp-canvas y se pospone a v2. La linea de tiempo (US-06) registra este estado como ultimo evento conocido, garantizando trazabilidad completa del ciclo activo."
+    },
+    {
+      "id": "OQ-04",
+      "question": "Como se medira operacionalmente la metrica de exito (>=70% con >=2 transiciones) si el dashboard de indicadores (R-07) esta fuera de alcance en v1?",
+      "impact": "Sin mecanismo de medicion no se puede confirmar que el outcome del MVP se alcanzo en los primeros 60 dias",
+      "origin": ["mvp-canvas.md:metrica-de-exito", "mvp-canvas.md:fuera-de-alcance-R-07"]
+    }
+  ]
+}

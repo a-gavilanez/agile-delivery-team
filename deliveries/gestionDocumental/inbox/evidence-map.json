@@ -1,0 +1,108 @@
+{
+  "discovery": "gestionDocumental",
+  "generated": "2026-06-26",
+  "personas": [
+    {
+      "name": "S. (secretaria)",
+      "role": "secretaria",
+      "primary": true
+    },
+    {
+      "name": "D. (director)",
+      "role": "director",
+      "primary": true
+    },
+    {
+      "name": "C. (colaborador)",
+      "role": "colaborador",
+      "primary": true
+    }
+  ],
+  "pains": [
+    {
+      "id": "registro-sin-trazabilidad",
+      "source": "secretaria.md",
+      "persona": "secretaria"
+    },
+    {
+      "id": "metadatos-no-obligados",
+      "source": "secretaria.md",
+      "persona": "secretaria"
+    },
+    {
+      "id": "bandeja-mezclada-secretaria",
+      "source": "secretaria.md",
+      "persona": "secretaria"
+    },
+    {
+      "id": "derivacion-manual-director",
+      "source": "secretaria.md",
+      "persona": "secretaria"
+    },
+    {
+      "id": "plantillas-inexistentes",
+      "source": "secretaria.md",
+      "persona": "secretaria"
+    },
+    {
+      "id": "archivo-sin-validacion",
+      "source": "secretaria.md",
+      "persona": "secretaria"
+    },
+    {
+      "id": "firma-en-papel",
+      "source": "director.md",
+      "persona": "director"
+    },
+    {
+      "id": "ceguera-de-estado",
+      "source": "director.md",
+      "persona": "director"
+    },
+    {
+      "id": "delegacion-informal",
+      "source": "director.md",
+      "persona": "director"
+    },
+    {
+      "id": "ausencia-sin-reasignacion",
+      "source": "director.md",
+      "persona": "director"
+    },
+    {
+      "id": "bandeja-sin-filtro",
+      "source": "colaborador.md",
+      "persona": "colaborador"
+    },
+    {
+      "id": "respuesta-sin-trazabilidad",
+      "source": "colaborador.md",
+      "persona": "colaborador"
+    },
+    {
+      "id": "estado-no-automatico",
+      "source": "colaborador.md",
+      "persona": "colaborador"
+    },
+    {
+      "id": "busqueda-lenta",
+      "source": "colaborador.md",
+      "persona": "colaborador"
+    },
+    {
+      "id": "sin-linea-de-tiempo",
+      "source": "colaborador.md",
+      "persona": "colaborador"
+    },
+    {
+      "id": "sin-alertas",
+      "source": "colaborador.md",
+      "persona": "colaborador"
+    },
+    {
+      "id": "expediente-disperso",
+      "source": "colaborador.md",
+      "persona": "colaborador"
+    }
+  ]
+}

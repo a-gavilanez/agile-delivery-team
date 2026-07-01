@@ -1,0 +1,26 @@
+{
+  "delivery": "gestionDocumental",
+  "sprint": 1,
+  "sprint_goal": "Al cierre del sprint, cualquier funcionario traza un tramite desde su ingreso hasta la carga de respuesta en una sola linea de tiempo auditada, sin coordinacion fuera del sistema",
+  "capacity": 20,
+  "committed_points": 19,
+  "committed": 19,
+  "start_date": "2026-06-28",
+  "duration_weeks": 2,
+  "stories": ["US-01", "US-02", "US-03", "US-04", "US-05", "US-06"],
+  "excluded_stories": [
+    {
+      "id": "US-07",
+      "reason": "Capacidad agotada: incluirla elevaria el total a 24 pts, superando los 20 pts de capacidad. Cumple DoR. El piloto arranca con un departamento unico (OQ-01 resuelto), por lo que diferirla a Sprint 2 no bloquea el despliegue inicial."
+    }
+  ],
+  "impediments": [
+    {
+      "id": "IMP-01",
+      "description": "OQ-04 sin resolucion: no existe mecanismo para medir operacionalmente la metrica de exito del MVP (>=70% de tramites con >=2 transiciones automaticas en 60 dias). El dashboard de indicadores (R-07) esta fuera de alcance en v1. El PO debe resolver OQ-04 y documentar la resolucion en backlog.json antes del fin del Sprint 1, o proponer una historia tecnica de medicion para Sprint 2.",
+      "origin": "backlog.json:open_questions:OQ-04",
+      "owner": "product-owner",
+      "due": "antes del fin del Sprint 1"
+    }
+  ]
+}
